@@ -1,18 +1,59 @@
 module Main exposing (..)
 
 import Html exposing (Html, div, text, program)
+import Navigation exposing (Location)
+import UrlParser exposing (..)
 
 
 -- MODEL
 
 
 type alias Model =
-    String
+    { current_user : String
+    , route : Route
+    }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( "Hello", Cmd.none )
+init : Location -> ( Model, Cmd Msg )
+init location =
+    let
+        currentRoute =
+            parseLocation location
+    in
+        ( initialModel currentRoute, Cmd.none )
+
+
+initialModel : Route -> Model
+initialModel route =
+    { current_user = "matt"
+    , route = route
+    }
+
+
+parseLocation : Location -> Route
+parseLocation location =
+    case (parseHash matchers location) of
+        Just route ->
+            route
+
+        Nothing ->
+            NotFoundRoute
+
+
+matchers : Parser (Route -> a) a
+matchers =
+    oneOf
+        [ map LogInRoute top
+        ]
+
+
+
+-- ROUTING
+
+
+type Route
+    = LogInRoute
+    | NotFoundRoute
 
 
 
@@ -20,7 +61,7 @@ init =
 
 
 type Msg
-    = NoOp
+    = OnLocationChange Location
 
 
 
@@ -30,7 +71,31 @@ type Msg
 view : Model -> Html Msg
 view model =
     div []
-        [ text model ]
+        [ page model ]
+
+
+page : Model -> Html Msg
+page model =
+    case model.route of
+        LogInRoute ->
+            logInView
+
+        NotFoundRoute ->
+            notFoundView
+
+
+logInView : Html msg
+logInView =
+    div []
+        [ text "Login"
+        ]
+
+
+notFoundView : Html msg
+notFoundView =
+    div []
+        [ text "Not found"
+        ]
 
 
 
@@ -40,8 +105,12 @@ view model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
+        OnLocationChange location ->
+            let
+                newRoute =
+                    parseLocation location
+            in
+                ( { model | route = newRoute }, Cmd.none )
 
 
 
@@ -59,7 +128,7 @@ subscriptions model =
 
 main : Program Never Model Msg
 main =
-    program
+    Navigation.program OnLocationChange
         { init = init
         , view = view
         , update = update
