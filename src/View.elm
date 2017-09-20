@@ -1,6 +1,8 @@
 module View exposing (..)
 
-import Html exposing (Html, div, text)
+import Html exposing (Html, Attribute, button, div, hr, h2, text, input)
+import Html.Events exposing (onClick)
+import Html.Attributes exposing (..)
 import Models exposing (Model)
 import Msgs exposing (Msg)
 
@@ -24,17 +26,26 @@ page model =
             notFoundView
 
 
-logInView : Html msg
+logInView : Html Msg
 logInView =
     div []
-        [ text "Login"
+        [ h2 [] [ text "Login" ]
+        , hr [] []
+        , input [ placeholder "Username" ] []
+        , input [ placeholder "Password" ] []
+        , button [ onClick Msgs.SubmitLogin ] [ text "submit" ]
         ]
 
 
-signUpView : Html msg
+signUpView : Html Msg
 signUpView =
     div []
-        [ text "Sign-up"
+        [ h2 [] [ text "Sign up" ]
+        , hr [] []
+        , input [ placeholder "Username" ] []
+        , input [ placeholder "Password" ] []
+        , input [ placeholder "Confirm Password" ] []
+        , button [ onClick Msgs.SubmitSignup ] [ text "submit" ]
         ]
 
 

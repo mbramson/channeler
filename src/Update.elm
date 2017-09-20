@@ -14,3 +14,9 @@ update msg model =
                     Routing.parseLocation location
             in
                 ( { model | route = newRoute }, Cmd.none )
+
+        Msgs.SubmitLogin ->
+            ( model, Cmd.none )
+
+        Msgs.SubmitSignup ->
+            ( model, Cmd.none )
