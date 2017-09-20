@@ -2,12 +2,12 @@ module Main exposing (..)
 
 import Html exposing (Html, div, text, program)
 import Models exposing (Model, initialModel)
+import Msgs exposing (Msg)
 import Navigation exposing (Location)
 import UrlParser exposing (..)
 import Routing
-
-
--- MODEL
+import Update exposing (update)
+import View exposing (view)
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -17,73 +17,6 @@ init location =
             Routing.parseLocation location
     in
         ( initialModel currentRoute, Cmd.none )
-
-
-
--- MESSAGES
-
-
-type Msg
-    = OnLocationChange Location
-
-
-
--- VIEW
-
-
-view : Model -> Html Msg
-view model =
-    div []
-        [ page model ]
-
-
-page : Model -> Html Msg
-page model =
-    case model.route of
-        Models.LogInRoute ->
-            logInView
-
-        Models.SignUpRoute ->
-            signUpView
-
-        Models.NotFoundRoute ->
-            notFoundView
-
-
-logInView : Html msg
-logInView =
-    div []
-        [ text "Login"
-        ]
-
-
-signUpView : Html msg
-signUpView =
-    div []
-        [ text "Sign-up"
-        ]
-
-
-notFoundView : Html msg
-notFoundView =
-    div []
-        [ text "Not found"
-        ]
-
-
-
--- UPDATE
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        OnLocationChange location ->
-            let
-                newRoute =
-                    Routing.parseLocation location
-            in
-                ( { model | route = newRoute }, Cmd.none )
 
 
 
@@ -101,7 +34,7 @@ subscriptions model =
 
 main : Program Never Model Msg
 main =
-    Navigation.program OnLocationChange
+    Navigation.program Msgs.OnLocationChange
         { init = init
         , view = view
         , update = update
