@@ -16,4 +16,5 @@ initialModel route =
 
 type Route
     = LogInRoute
+    | SignUpRoute
     | NotFoundRoute

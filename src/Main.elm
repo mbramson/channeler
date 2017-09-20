@@ -43,6 +43,9 @@ page model =
         Models.LogInRoute ->
             logInView
 
+        Models.SignUpRoute ->
+            signUpView
+
         Models.NotFoundRoute ->
             notFoundView
 
@@ -51,6 +54,13 @@ logInView : Html msg
 logInView =
     div []
         [ text "Login"
+        ]
+
+
+signUpView : Html msg
+signUpView =
+    div []
+        [ text "Sign-up"
         ]
 
 
