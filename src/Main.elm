@@ -1,59 +1,22 @@
 module Main exposing (..)
 
 import Html exposing (Html, div, text, program)
+import Models exposing (Model, initialModel)
 import Navigation exposing (Location)
 import UrlParser exposing (..)
+import Routing
 
 
 -- MODEL
-
-
-type alias Model =
-    { current_user : String
-    , route : Route
-    }
 
 
 init : Location -> ( Model, Cmd Msg )
 init location =
     let
         currentRoute =
-            parseLocation location
+            Routing.parseLocation location
     in
         ( initialModel currentRoute, Cmd.none )
-
-
-initialModel : Route -> Model
-initialModel route =
-    { current_user = "matt"
-    , route = route
-    }
-
-
-parseLocation : Location -> Route
-parseLocation location =
-    case (parseHash matchers location) of
-        Just route ->
-            route
-
-        Nothing ->
-            NotFoundRoute
-
-
-matchers : Parser (Route -> a) a
-matchers =
-    oneOf
-        [ map LogInRoute top
-        ]
-
-
-
--- ROUTING
-
-
-type Route
-    = LogInRoute
-    | NotFoundRoute
 
 
 
@@ -77,10 +40,10 @@ view model =
 page : Model -> Html Msg
 page model =
     case model.route of
-        LogInRoute ->
+        Models.LogInRoute ->
             logInView
 
-        NotFoundRoute ->
+        Models.NotFoundRoute ->
             notFoundView
 
 
@@ -108,7 +71,7 @@ update msg model =
         OnLocationChange location ->
             let
                 newRoute =
-                    parseLocation location
+                    Routing.parseLocation location
             in
                 ( { model | route = newRoute }, Cmd.none )
 
