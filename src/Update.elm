@@ -12,14 +12,17 @@ update msg model =
             let
                 newRoute =
                     Routing.parseLocation location
+
+                clearedModel =
+                    model |> clearFields
             in
-                ( { model | route = newRoute }, Cmd.none )
+                ( { clearedModel | route = newRoute }, Cmd.none )
 
         Msgs.SubmitLogin ->
-            ( model, Cmd.none )
+            ( model |> clearFields, Cmd.none )
 
         Msgs.SignupSubmit ->
-            ( model, Cmd.none )
+            ( model |> clearFields, Cmd.none )
 
         Msgs.SignupChangeUsername userName ->
             ( model |> updateUserName userName, Cmd.none )
@@ -29,6 +32,11 @@ update msg model =
 
         Msgs.SignupChangePasswordConfirmation passwordConfirmation ->
             ( model |> updatePasswordConfirmation passwordConfirmation, Cmd.none )
+
+
+clearFields : Model -> Model
+clearFields model =
+    { model | formFields = Models.initialFormFields }
 
 
 updateUserName : String -> Model -> Model
