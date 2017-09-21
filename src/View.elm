@@ -1,7 +1,7 @@
 module View exposing (..)
 
-import Html exposing (Html, Attribute, button, div, hr, h2, text, input)
-import Html.Events exposing (onClick)
+import Html exposing (Html, Attribute, button, div, hr, h2, p, text, input)
+import Html.Events exposing (onClick, onInput)
 import Html.Attributes exposing (..)
 import Models exposing (Model)
 import Msgs exposing (Msg)
@@ -17,35 +17,52 @@ page : Model -> Html Msg
 page model =
     case model.route of
         Models.LogInRoute ->
-            logInView
+            logInView model
 
         Models.SignUpRoute ->
-            signUpView
+            signUpView model
 
         Models.NotFoundRoute ->
             notFoundView
 
 
-logInView : Html Msg
-logInView =
+logInView : Model -> Html Msg
+logInView model =
     div []
         [ h2 [] [ text "Login" ]
         , hr [] []
-        , input [ placeholder "Username" ] []
-        , input [ placeholder "Password" ] []
+        , p [] [ text model.formFields.username ]
+        , p [] [ text model.formFields.password ]
+        , hr [] []
+        , p []
+            [ input [ type_ "text", placeholder "Username", onInput Msgs.SignupChangeUsername ] []
+            ]
+        , p []
+            [ input [ type_ "password", placeholder "Password", onInput Msgs.SignupChangePassword ] []
+            ]
         , button [ onClick Msgs.SubmitLogin ] [ text "submit" ]
         ]
 
 
-signUpView : Html Msg
-signUpView =
+signUpView : Model -> Html Msg
+signUpView model =
     div []
         [ h2 [] [ text "Sign up" ]
         , hr [] []
-        , input [ placeholder "Username" ] []
-        , input [ placeholder "Password" ] []
-        , input [ placeholder "Confirm Password" ] []
-        , button [ onClick Msgs.SubmitSignup ] [ text "submit" ]
+        , p [] [ text model.formFields.username ]
+        , p [] [ text model.formFields.password ]
+        , p [] [ text model.formFields.passwordConfirmation ]
+        , hr [] []
+        , p []
+            [ input [ type_ "text", placeholder "Username", onInput Msgs.SignupChangeUsername ] []
+            ]
+        , p []
+            [ input [ type_ "password", placeholder "Password", onInput Msgs.SignupChangePassword ] []
+            ]
+        , p []
+            [ input [ type_ "password", placeholder "Confirm Password", onInput Msgs.SignupChangePasswordConfirmation ] []
+            ]
+        , button [ onClick Msgs.SignupSubmit ] [ text "submit" ]
         ]
 
 

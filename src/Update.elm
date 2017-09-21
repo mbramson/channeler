@@ -18,5 +18,50 @@ update msg model =
         Msgs.SubmitLogin ->
             ( model, Cmd.none )
 
-        Msgs.SubmitSignup ->
+        Msgs.SignupSubmit ->
             ( model, Cmd.none )
+
+        Msgs.SignupChangeUsername userName ->
+            ( model |> updateUserName userName, Cmd.none )
+
+        Msgs.SignupChangePassword password ->
+            ( model |> updatePassword password, Cmd.none )
+
+        Msgs.SignupChangePasswordConfirmation passwordConfirmation ->
+            ( model |> updatePasswordConfirmation passwordConfirmation, Cmd.none )
+
+
+updateUserName : String -> Model -> Model
+updateUserName newUserName model =
+    let
+        fields =
+            model.formFields
+
+        newFields =
+            { fields | username = newUserName }
+    in
+        { model | formFields = newFields }
+
+
+updatePassword : String -> Model -> Model
+updatePassword newPassword model =
+    let
+        fields =
+            model.formFields
+
+        newFields =
+            { fields | password = newPassword }
+    in
+        { model | formFields = newFields }
+
+
+updatePasswordConfirmation : String -> Model -> Model
+updatePasswordConfirmation newPasswordConfirmation model =
+    let
+        fields =
+            model.formFields
+
+        newFields =
+            { fields | passwordConfirmation = newPasswordConfirmation }
+    in
+        { model | formFields = newFields }
