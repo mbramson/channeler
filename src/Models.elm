@@ -2,30 +2,45 @@ module Models exposing (..)
 
 
 type alias Model =
-    { currentUser : String
+    { currentUser : Maybe User
     , route : Route
-    , formFields : InitialFormFields
+    , formFields : FormFields
     }
 
 
 initialModel : Route -> Model
 initialModel route =
-    { currentUser = "matt"
+    { currentUser = Nothing
     , route = route
     , formFields = initialFormFields
     }
 
 
-initialFormFields : InitialFormFields
+initialFormFields : FormFields
 initialFormFields =
     { username = ""
+    , email = ""
     , password = ""
     , passwordConfirmation = ""
     }
 
 
-type alias InitialFormFields =
+type alias Session =
+    { user : User
+    , jwt : String
+    }
+
+
+type alias User =
+    { id : Int
+    , username : String
+    , email : String
+    }
+
+
+type alias FormFields =
     { username : String
+    , email : String
     , password : String
     , passwordConfirmation : String
     }

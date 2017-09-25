@@ -1,7 +1,9 @@
 module Update exposing (..)
 
+import Commands exposing (..)
 import Msgs exposing (Msg)
-import Models exposing (Model)
+import Models exposing (Model, Session)
+import RemoteData exposing (WebData)
 import Routing exposing (parseLocation)
 
 
@@ -21,8 +23,11 @@ update msg model =
         Msgs.SubmitLogin ->
             ( model |> clearFields, Cmd.none )
 
+        Msgs.OnFetchSignup session ->
+            ( model |> loginUser session, Cmd.none )
+
         Msgs.SignupSubmit ->
-            ( model |> clearFields, Cmd.none )
+            ( model |> clearFields, signupUser model.formFields )
 
         Msgs.SignupChangeUsername userName ->
             ( model |> updateUserName userName, Cmd.none )
@@ -32,6 +37,16 @@ update msg model =
 
         Msgs.SignupChangePasswordConfirmation passwordConfirmation ->
             ( model |> updatePasswordConfirmation passwordConfirmation, Cmd.none )
+
+
+loginUser : WebData Session -> Model -> Model
+loginUser sessionData model =
+    case sessionData of
+        RemoteData.Success session ->
+            { model | currentUser = Just session.user }
+
+        _ ->
+            model
 
 
 clearFields : Model -> Model
