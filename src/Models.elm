@@ -3,6 +3,7 @@ module Models exposing (..)
 
 type alias Model =
     { currentUser : Maybe User
+    , jwt : Maybe String
     , route : Route
     , formFields : FormFields
     }
@@ -11,6 +12,7 @@ type alias Model =
 initialModel : Route -> Model
 initialModel route =
     { currentUser = Nothing
+    , jwt = Nothing
     , route = route
     , formFields = initialFormFields
     }

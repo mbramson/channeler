@@ -32,6 +32,9 @@ update msg model =
         Msgs.SignupChangeUsername userName ->
             ( model |> updateUserName userName, Cmd.none )
 
+        Msgs.SignupChangeEmail email ->
+            ( model |> updateEmail email, Cmd.none )
+
         Msgs.SignupChangePassword password ->
             ( model |> updatePassword password, Cmd.none )
 
@@ -62,6 +65,18 @@ updateUserName newUserName model =
 
         newFields =
             { fields | username = newUserName }
+    in
+        { model | formFields = newFields }
+
+
+updateEmail : String -> Model -> Model
+updateEmail newEmail model =
+    let
+        fields =
+            model.formFields
+
+        newFields =
+            { fields | email = newEmail }
     in
         { model | formFields = newFields }
 
