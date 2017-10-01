@@ -20,6 +20,9 @@ update msg model =
             in
                 ( { clearedModel | route = newRoute }, Cmd.none )
 
+        Msgs.Logout ->
+            ( model |> logout, Cmd.none )
+
         Msgs.LoginSubmit ->
             ( model |> clearFields, Cmd.none )
 
@@ -42,11 +45,16 @@ update msg model =
             ( model |> updatePasswordConfirmation passwordConfirmation, Cmd.none )
 
 
+logout : Model -> Model
+logout model =
+    { model | currentUser = Nothing, jwt = Nothing }
+
+
 loginUser : WebData Session -> Model -> Model
 loginUser sessionData model =
     case sessionData of
         RemoteData.Success session ->
-            { model | currentUser = Just session.user }
+            { model | currentUser = Just session.user, jwt = Just session.jwt }
 
         _ ->
             model

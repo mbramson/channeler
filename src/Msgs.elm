@@ -7,6 +7,7 @@ import Models exposing (User, Session)
 
 type Msg
     = OnLocationChange Location
+    | Logout
     | LoginSubmit
     | SignupSubmit
     | OnFetchSignup (WebData Session)

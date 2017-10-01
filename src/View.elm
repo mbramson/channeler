@@ -30,6 +30,7 @@ header model =
     div []
         [ navBar model
         , flashMessage model.flash
+        , button [ onClick Msgs.Logout ] [ text "Log out" ]
         ]
 
 
