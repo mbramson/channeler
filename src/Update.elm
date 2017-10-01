@@ -24,13 +24,13 @@ update msg model =
             ( model |> logout, Cmd.none )
 
         Msgs.LoginSubmit ->
-            ( model |> clearFields, Cmd.none )
+            ( model |> clearFields, loginUser model.formFields )
 
         Msgs.SignupSubmit ->
             ( model |> clearFields, signupUser model.formFields )
 
-        Msgs.OnFetchSignup session ->
-            ( model |> loginUser session, Cmd.none )
+        Msgs.OnFetchSession session ->
+            ( model |> addSession session, Cmd.none )
 
         Msgs.SignupChangeUsername userName ->
             ( model |> updateUserName userName, Cmd.none )
@@ -50,8 +50,8 @@ logout model =
     { model | currentUser = Nothing, jwt = Nothing }
 
 
-loginUser : WebData Session -> Model -> Model
-loginUser sessionData model =
+addSession : WebData Session -> Model -> Model
+addSession sessionData model =
     case sessionData of
         RemoteData.Success session ->
             { model | currentUser = Just session.user, jwt = Just session.jwt }

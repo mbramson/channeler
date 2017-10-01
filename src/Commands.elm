@@ -13,7 +13,7 @@ signupUser : FormFields -> Cmd Msg
 signupUser formFields =
     signupRequest formFields
         |> RemoteData.sendRequest
-        |> Cmd.map Msgs.OnFetchSignup
+        |> Cmd.map Msgs.OnFetchSession
 
 
 signupRequest : FormFields -> Http.Request Session
@@ -63,3 +63,28 @@ encodeUser record =
         , ( "email", Encode.string <| record.email )
         , ( "password", Encode.string <| record.password )
         ]
+
+
+loginUser : FormFields -> Cmd Msg
+loginUser formFields =
+    loginRequest formFields
+        |> RemoteData.sendRequest
+        |> Cmd.map Msgs.OnFetchSession
+
+
+loginRequest : FormFields -> Http.Request Session
+loginRequest formFields =
+    Http.request
+        { body = encodeSession formFields |> Http.jsonBody
+        , expect = Http.expectJson decodeSession
+        , headers = []
+        , method = "POST"
+        , timeout = Nothing
+        , url = loginUrl
+        , withCredentials = False
+        }
+
+
+loginUrl : String
+loginUrl =
+    "http://localhost:4000/api/v1/sessions"

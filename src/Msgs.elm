@@ -10,7 +10,7 @@ type Msg
     | Logout
     | LoginSubmit
     | SignupSubmit
-    | OnFetchSignup (WebData Session)
+    | OnFetchSession (WebData Session)
     | SignupChangeEmail String
     | SignupChangeUsername String
     | SignupChangePassword String
