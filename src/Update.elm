@@ -56,8 +56,22 @@ addSession sessionData model =
         RemoteData.Success session ->
             { model | currentUser = Just session.user, jwt = Just session.jwt }
 
+        RemoteData.Failure error ->
+            model |> addFlashError (toString error)
+
         _ ->
             model
+
+
+addFlashError : String -> Model -> Model
+addFlashError message model =
+    let
+        newFlash =
+            { message = message
+            , flash_type = "error"
+            }
+    in
+        { model | flash = Just newFlash }
 
 
 clearFields : Model -> Model

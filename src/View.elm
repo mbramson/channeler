@@ -60,9 +60,6 @@ logInView model =
         [ header model
         , h2 [] [ text "Login" ]
         , hr [] []
-        , p [] [ text model.formFields.email ]
-        , p [] [ text model.formFields.password ]
-        , hr [] []
         , p []
             [ input [ type_ "text", placeholder "Email", onInput Msgs.SignupChangeEmail ] []
             ]
@@ -78,11 +75,6 @@ signUpView model =
     div []
         [ header model
         , h2 [] [ text "Sign up" ]
-        , hr [] []
-        , p [] [ text model.formFields.username ]
-        , p [] [ text model.formFields.email ]
-        , p [] [ text model.formFields.password ]
-        , p [] [ text model.formFields.passwordConfirmation ]
         , hr [] []
         , p []
             [ input [ type_ "text", placeholder "Username", onInput Msgs.SignupChangeUsername ] []
