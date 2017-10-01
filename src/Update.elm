@@ -20,14 +20,14 @@ update msg model =
             in
                 ( { clearedModel | route = newRoute }, Cmd.none )
 
-        Msgs.SubmitLogin ->
+        Msgs.LoginSubmit ->
             ( model |> clearFields, Cmd.none )
-
-        Msgs.OnFetchSignup session ->
-            ( model |> loginUser session, Cmd.none )
 
         Msgs.SignupSubmit ->
             ( model |> clearFields, signupUser model.formFields )
+
+        Msgs.OnFetchSignup session ->
+            ( model |> loginUser session, Cmd.none )
 
         Msgs.SignupChangeUsername userName ->
             ( model |> updateUserName userName, Cmd.none )

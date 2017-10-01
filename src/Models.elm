@@ -6,6 +6,7 @@ type alias Model =
     , jwt : Maybe String
     , route : Route
     , formFields : FormFields
+    , flash : Maybe Flash
     }
 
 
@@ -15,6 +16,7 @@ initialModel route =
     , jwt = Nothing
     , route = route
     , formFields = initialFormFields
+    , flash = Nothing
     }
 
 
@@ -52,3 +54,9 @@ type Route
     = LogInRoute
     | SignUpRoute
     | NotFoundRoute
+
+
+type alias Flash =
+    { message : String
+    , flash_type : String
+    }

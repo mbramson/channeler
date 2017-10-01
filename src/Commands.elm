@@ -45,45 +45,21 @@ decodeUser : Decode.Decoder User
 decodeUser =
     Decode.map3 User
         (field "id" Decode.int)
-        (field "username" Decode.string)
+        (field "name" Decode.string)
         (field "email" Decode.string)
-
-
-
---encodeSession : FormFields -> Encode.Value
---encodeSession formFields =
---    let
---        user_params =
---            [ ( "username", Encode.string formFields.username )
---            , ( "email", Encode.string formFields.email )
---            , ( "password", Encode.string formFields.password )
---            ]
---
---        attributes =
---            [ ( "user_params", user_params ) ]
---    in
---        Encode.object attributes
---
---
---encodeUser : FormFields -> Encode.Value
---encodeUser formFields =
---    [ ( "username", Encode.string formFields.username )
---    , ( "email", Encode.string formFields.email )
---    , ( "password", Encode.string formFields.password )
---    ]
 
 
 encodeSession : FormFields -> Encode.Value
 encodeSession formFields =
     Encode.object
-        [ ( "userParams", encodeUser <| formFields )
+        [ ( "user", encodeUser <| formFields )
         ]
 
 
 encodeUser : FormFields -> Encode.Value
 encodeUser record =
     Encode.object
-        [ ( "username", Encode.string <| record.username )
+        [ ( "name", Encode.string <| record.username )
         , ( "email", Encode.string <| record.email )
         , ( "password", Encode.string <| record.password )
         ]
