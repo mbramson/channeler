@@ -1,10 +1,8 @@
 module Main exposing (..)
 
-import Html exposing (Html, div, text, program)
 import Models exposing (Model, initialModel)
 import Msgs exposing (Msg)
 import Navigation exposing (Location)
-import UrlParser exposing (..)
 import Routing
 import Update exposing (update)
 import View exposing (view)

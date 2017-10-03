@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import Html exposing (Html, Attribute, button, div, hr, h2, nav, p, text, input)
+import Html exposing (Html, Attribute, a, button, div, hr, h2, nav, p, text, input)
 import Html.Events exposing (onClick, onInput)
 import Html.Attributes exposing (..)
 import Models exposing (Model, User, Flash)
@@ -39,12 +39,22 @@ header model =
 
 navBar : Model -> Html Msg
 navBar model =
-    case model.currentUser of
+    nav [ class "navbar navbar-toggleable-md navbar-light bg-faded" ]
+        [ currentUserNav model.currentUser ]
+
+
+currentUserNav : Maybe User -> Html Msg
+currentUserNav currentUser =
+    case currentUser of
         Just user ->
-            div [] [ text ("logged in as " ++ user.username) ]
+            div [] [ text user.username ]
 
         Nothing ->
-            div [] [ text "not logged in" ]
+            a
+                [ class "btn btn-primary"
+                , href "localhost:3000/#login"
+                ]
+                [ text "Log in" ]
 
 
 flashMessage : Maybe Flash -> Html Msg
@@ -99,7 +109,7 @@ signUpView model =
         , p []
             [ input [ type_ "password", placeholder "Confirm Password", onInput Msgs.SignupChangePasswordConfirmation ] []
             ]
-        , button [ onClick Msgs.SignupSubmit ] [ text "submit" ]
+        , button [ class "btn btn-primary", onClick Msgs.SignupSubmit ] [ text "submit" ]
         ]
 
 
