@@ -51,7 +51,8 @@ type alias FormFields =
 
 
 type Route
-    = LogInRoute
+    = HomeRoute
+    | LogInRoute
     | SignUpRoute
     | NotFoundRoute
 

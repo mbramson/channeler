@@ -18,7 +18,7 @@ parseLocation location =
 matchers : Parser (Route -> a) a
 matchers =
     oneOf
-        [ map LogInRoute top
+        [ map HomeRoute top
         , map LogInRoute (s "login")
         , map SignUpRoute (s "signup")
         ]

@@ -15,6 +15,9 @@ view model =
 page : Model -> Html Msg
 page model =
     case model.route of
+        Models.HomeRoute ->
+            homeView model
+
         Models.LogInRoute ->
             logInView model
 
@@ -52,6 +55,14 @@ flashMessage flash =
 
         Nothing ->
             div [] []
+
+
+homeView : Model -> Html Msg
+homeView model =
+    div []
+        [ header model
+        , text "Welcome to the app!"
+        ]
 
 
 logInView : Model -> Html Msg
