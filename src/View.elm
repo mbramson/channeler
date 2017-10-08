@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import Html exposing (Html, Attribute, a, button, div, hr, h2, nav, p, text, input)
+import Html exposing (Html, Attribute, a, button, div, hr, h2, nav, p, text, input, span, ul, li)
 import Html.Events exposing (onClick, onInput)
 import Html.Attributes exposing (..)
 import Models exposing (Model, User, Flash)
@@ -9,7 +9,13 @@ import Msgs exposing (Msg)
 
 view : Model -> Html Msg
 view model =
-    div [] [ page model ]
+    div [ class "container-fluid" ]
+        [ navBar model
+        , div [ class "container" ]
+            [ flashMessage model.flash
+            , page model
+            ]
+        ]
 
 
 page : Model -> Html Msg
@@ -33,27 +39,44 @@ header model =
     div []
         [ navBar model
         , flashMessage model.flash
-        , button [ onClick Msgs.Logout ] [ text "Log out" ]
         ]
 
 
 navBar : Model -> Html Msg
 navBar model =
-    nav [ class "navbar navbar-toggleable-md navbar-light bg-faded" ]
-        [ currentUserNav model.currentUser ]
+    nav [ class "navbar navbar-expand-md navbar-dark bg-dark" ]
+        [ navBarCollapseButton
+        , a [ class "navbar-brand", href "#" ] [ text "HOME" ]
+        , div [ class "collapse navbar-collapse", id "navbarSupportedContent" ]
+            [ ul [ class "navbar-nav mr-auto" ]
+                [ li [ class "nav-item active" ] [ currentUserNav model.currentUser ] ]
+            ]
+        ]
+
+
+navBarCollapseButton : Html Msg
+navBarCollapseButton =
+    button
+        [ class "navbar-toggler navbar-toggler-right"
+        , attribute "type" "button"
+        , attribute "data-toggle" "collapse"
+        , attribute "data-target" "#navbarSupportedContent"
+        , attribute "aria-controls" "navbarSupportedContent"
+        , attribute "aria-expanded" "false"
+        , attribute "aria-label" "Toggle navigation"
+        ]
+        [ span [ class "navbar-toggler-icon" ] [] ]
 
 
 currentUserNav : Maybe User -> Html Msg
 currentUserNav currentUser =
     case currentUser of
         Just user ->
-            div [] [ text user.username ]
+            div []
+                [ button [ onClick Msgs.Logout, class "nav-link" ] [ text "Log out" ] ]
 
         Nothing ->
-            a
-                [ class "btn btn-primary"
-                , href "localhost:3000/#login"
-                ]
+            a [ class "nav-link", href "#login" ]
                 [ text "Log in" ]
 
 
@@ -70,16 +93,13 @@ flashMessage flash =
 homeView : Model -> Html Msg
 homeView model =
     div []
-        [ header model
-        , text "Welcome to the app!"
-        ]
+        [ text "Welcome to the app!" ]
 
 
 logInView : Model -> Html Msg
 logInView model =
     div []
-        [ header model
-        , h2 [] [ text "Login" ]
+        [ h2 [] [ text "Login" ]
         , hr [] []
         , p []
             [ input [ type_ "text", placeholder "Email", onInput Msgs.SignupChangeEmail ] []
@@ -94,8 +114,7 @@ logInView model =
 signUpView : Model -> Html Msg
 signUpView model =
     div []
-        [ header model
-        , h2 [] [ text "Sign up" ]
+        [ h2 [] [ text "Sign up" ]
         , hr [] []
         , p []
             [ input [ type_ "text", placeholder "Username", onInput Msgs.SignupChangeUsername ] []
