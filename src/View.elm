@@ -11,7 +11,7 @@ view : Model -> Html Msg
 view model =
     div [ class "container-fluid" ]
         [ navBar model
-        , div [ class "container" ]
+        , div [ class "container-fluid" ]
             [ flashMessage model.flash
             , page model
             ]
@@ -45,8 +45,8 @@ header model =
 navBar : Model -> Html Msg
 navBar model =
     nav [ class "navbar navbar-expand-md navbar-dark bg-dark" ]
-        [ navBarCollapseButton
-        , a [ class "navbar-brand", href "#" ] [ text "HOME" ]
+        [ a [ class "navbar-brand", href "#" ] [ text "HOME" ]
+        , navBarCollapseButton
         , div [ class "collapse navbar-collapse", id "navbarSupportedContent" ]
             [ ul [ class "navbar-nav mr-auto" ]
                 [ li [ class "nav-item active" ] [ currentUserNav model.currentUser ] ]
