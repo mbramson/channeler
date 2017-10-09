@@ -72,8 +72,7 @@ currentUserNav : Maybe User -> Html Msg
 currentUserNav currentUser =
     case currentUser of
         Just user ->
-            div []
-                [ button [ onClick Msgs.Logout, class "nav-link" ] [ text "Log out" ] ]
+            a [ onClick Msgs.Logout, class "nav-link", href "#login" ] [ text "Log out" ]
 
         Nothing ->
             a [ class "nav-link", href "#login" ]
@@ -84,10 +83,20 @@ flashMessage : Maybe Flash -> Html Msg
 flashMessage flash =
     case flash of
         Just flash ->
-            div [] [ text flash.message ]
+            flashAlert flash
 
         Nothing ->
-            div [] []
+            text ""
+
+
+flashAlert : Flash -> Html Msg
+flashAlert flash =
+    case flash.flash_type of
+        "error" ->
+            div [ class "alert alert-danger" ] [ text flash.message ]
+
+        other ->
+            div [ class "alert alert-primary" ] [ text flash.message ]
 
 
 homeView : Model -> Html Msg
