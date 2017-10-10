@@ -1,7 +1,7 @@
 module View exposing (..)
 
 import Views.HeaderView exposing (navBar, flashMessage)
-import Html exposing (Html, Attribute, a, button, div, hr, h2, nav, p, text, input, span, ul, li)
+import Html exposing (Html, Attribute, a, button, div, h4, label, nav, p, text, input, span, ul, li)
 import Html.Events exposing (onClick, onInput)
 import Html.Attributes exposing (..)
 import Models exposing (Model, User, Flash)
@@ -12,7 +12,7 @@ view : Model -> Html Msg
 view model =
     div [ class "container-fluid" ]
         [ navBar model
-        , div [ class "container-fluid" ]
+        , div [ class "container" ]
             [ flashMessage model.flash
             , page model
             ]
@@ -44,36 +44,44 @@ homeView model =
 logInView : Model -> Html Msg
 logInView model =
     div []
-        [ h2 [] [ text "Login" ]
-        , hr [] []
-        , p []
-            [ input [ type_ "text", placeholder "Email", onInput Msgs.SignupChangeEmail ] []
+        [ h4 [ class "display-4" ] [ text "Login" ]
+        , Html.form []
+            [ div [ class "form-group" ]
+                [ label [ for "logInEmail" ] [ text "Email" ]
+                , input [ class "form-control", type_ "text", placeholder "Email", id "logInEmail", onInput Msgs.SignupChangeEmail ] []
+                ]
+            , div [ class "form-group" ]
+                [ label [ for "logInPassword" ] [ text "Password" ]
+                , input [ class "form-control", type_ "password", placeholder "Password", id "logInPassword", onInput Msgs.SignupChangePassword ] []
+                ]
+            , button [ onClick Msgs.LoginSubmit, class "btn btn-primary" ] [ text "submit" ]
             ]
-        , p []
-            [ input [ type_ "password", placeholder "Password", onInput Msgs.SignupChangePassword ] []
-            ]
-        , button [ onClick Msgs.LoginSubmit ] [ text "submit" ]
         ]
 
 
 signUpView : Model -> Html Msg
 signUpView model =
     div []
-        [ h2 [] [ text "Sign up" ]
-        , hr [] []
-        , p []
-            [ input [ type_ "text", placeholder "Username", onInput Msgs.SignupChangeUsername ] []
+        [ h4 [ class "display-4" ] [ text "Sign up" ]
+        , Html.form []
+            [ div [ class "form-group" ]
+                [ label [ for "signUpUsername" ] [ text "Username" ]
+                , input [ class "form-control", type_ "text", placeholder "Username", id "signUpUsername", onInput Msgs.SignupChangeUsername ] []
+                ]
+            , div [ class "form-group" ]
+                [ label [ for "signUpEmail" ] [ text "Email" ]
+                , input [ class "form-control", type_ "text", placeholder "Email", id "signUpEmail", onInput Msgs.SignupChangeEmail ] []
+                ]
+            , div [ class "form-group" ]
+                [ label [ for "signUpPassword" ] [ text "Password" ]
+                , input [ class "form-control", type_ "password", placeholder "Password", id "signUpPassword", onInput Msgs.SignupChangePassword ] []
+                ]
+            , div [ class "form-group" ]
+                [ label [ for "signUpPasswordConfirmation" ] [ text "Password" ]
+                , input [ class "form-control", type_ "password", placeholder "Confirm Password", id "signUpPasswordConfirmation", onInput Msgs.SignupChangePasswordConfirmation ] []
+                ]
+            , button [ onClick Msgs.SignupSubmit, class "btn btn-primary" ] [ text "submit" ]
             ]
-        , p []
-            [ input [ type_ "text", placeholder "Email", onInput Msgs.SignupChangeEmail ] []
-            ]
-        , p []
-            [ input [ type_ "password", placeholder "Password", onInput Msgs.SignupChangePassword ] []
-            ]
-        , p []
-            [ input [ type_ "password", placeholder "Confirm Password", onInput Msgs.SignupChangePasswordConfirmation ] []
-            ]
-        , button [ class "btn btn-primary", onClick Msgs.SignupSubmit ] [ text "submit" ]
         ]
 
 
@@ -82,3 +90,7 @@ notFoundView =
     div []
         [ text "Not found"
         ]
+
+
+for value =
+    attribute "for" value
